@@ -1,17 +1,10 @@
+import React from "react";
 import "./App.css";
 import Navbar from "./Navbar";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 function App() {
   return (
-<<<<<<< HEAD
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<PostFeed />} />
-      </Routes>
-    </BrowserRouter>
-=======
     <>
       <div>
         <Navbar />
@@ -26,7 +19,6 @@ function App() {
         , );
       </div>
     </>
->>>>>>> 12bc6246428a09feebe62f4d28fbc7b43bafb9c9
   );
 }
 
