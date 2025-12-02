@@ -4,7 +4,8 @@ import Navbar from "./Navbar";
 import PostFeed from "./PostFeed";
 import { Routes, Route } from "react-router";
 import RegisterPage from "./Register";
-import DetailPage from "./DetailPage";
+import DetailPage from "./components/DetailPage";
+
 function App() {
   return (
     <div>

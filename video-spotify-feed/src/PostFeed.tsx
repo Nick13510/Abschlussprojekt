@@ -51,7 +51,9 @@ export default function PostFeed() {
   return (
     <main className="post-feed container">
       <h1 className="feed-title">Home</h1>
-
+      <NavLink to="/Register" end>
+        Register
+      </NavLink>
       <form
         onSubmit={onSubmit}
         className="search-form"
@@ -83,6 +85,3 @@ export default function PostFeed() {
     </main>
   );
 }
-<NavLink to="/detail" end>
-  DetailPage
-</NavLink>;

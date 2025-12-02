@@ -10,6 +10,7 @@ export default function VideoCard(props) {
         <p className="channel">{video.channelTitle}</p>
         {video.publishedAt && <p className="published">{video.publishedAt}</p>}
       </div>
+      AC
     </article>
   );
 }
