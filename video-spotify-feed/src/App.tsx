@@ -1,13 +1,12 @@
 import React from "react";
 import "./App.css";
 import Navbar from "./Navbar";
-import PostFeed from "./PostFeed";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 function App() {
   return (
-    <div>
-      <>
+    <>
+      <div>
         <Navbar />
         const root = document.getElementById("root");
         ReactDOM.createRoot(root).render(
@@ -18,8 +17,8 @@ function App() {
           </Routes>
         </BrowserRouter>
         , );
-      </>
-    </div>
+      </div>
+    </>
   );
 }
 
