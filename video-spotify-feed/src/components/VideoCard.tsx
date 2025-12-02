@@ -12,18 +12,18 @@ type Video = {
 
 export default function VideoCard({ video }: { video: Video }) {
   return (
-    <article className="video-card">
-      <div className="thumb-wrap">
-        <img src={video.thumbnail} alt={video.title} className="thumb" />
+    <li className="video-item">
+      <div className="video-thumb-wrap">
+        <img className="video-thumb" src={video.thumbnail} alt={video.title} />
         <span className="duration">{video.duration}</span>
       </div>
-      <div className="meta">
-        <h3 className="title">{video.title}</h3>
-        <p className="channel">
+      <div className="video-meta">
+        <h3 className="video-title">{video.title}</h3>
+        <p className="video-channel">
           {video.channel} • {video.views}
         </p>
-        <p className="published">{video.publishedAt}</p>
+        <p className="video-published">{video.publishedAt}</p>
       </div>
-    </article>
+    </li>
   );
 }
