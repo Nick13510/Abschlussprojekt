@@ -1,5 +1,3 @@
-import { NavLink } from "react-router";
-
 function Navbar() {
   return (
     <div className="navbar bg-base-100 shadow-sm">
