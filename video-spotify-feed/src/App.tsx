@@ -10,11 +10,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<PostFeed />} />
-<<<<<<< HEAD
-        <Route path="/register" element={<RegisterPage />} />
-=======
-        <Route path="Login" element={<Login />} />
->>>>>>> 102f08fec8a18d3c86f20c29ab17172a7f1f7f8c
+        <Route path="/Register" element={<RegisterPage />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./register.css";
 
 type FormState = {
   username: string;
