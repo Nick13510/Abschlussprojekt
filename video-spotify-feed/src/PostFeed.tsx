@@ -43,8 +43,9 @@ export default function PostFeed() {
       setLoading(true);
       setError(null);
       try {
-        const q = encodeURIComponent(searchTerm ?? "");
-        const url = `https://react-vid-app.vercel.app/api/videos?q=<search>}`;
+        const url = `https://react-vid-app.vercel.app/api/videos?q=${encodeURIComponent(
+          searchTerm ?? ""
+        )}`;
         const res = await fetch(url);
         if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
         const data = await res.json();

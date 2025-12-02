@@ -7,7 +7,7 @@ type Video = {
   views: string;
   duration: string;
   thumbnail: string;
-  publishedAt: string;
+  publishedAt?: string;
 };
 
 export default function VideoCard({ video }: { video: Video }) {

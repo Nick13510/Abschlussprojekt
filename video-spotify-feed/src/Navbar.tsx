@@ -63,13 +63,11 @@ function Navbar() {
             </details>
           </li>
           <li>
-            <a>Item 3</a>s
+            <a>Item 3</a>
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Button</a>
-      </div>
+      <div className="navbar-end"></div>
     </div>
   );
 }
