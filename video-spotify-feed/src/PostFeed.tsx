@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import VideoCard from "./components/VideoCard";
+import PostCard from "./components/PostCard";
 import { NavLink } from "react-router";
 
 export default function PostFeed() {
-  const [videos, setVideos] = useState<any[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -13,27 +13,20 @@ export default function PostFeed() {
 
   useEffect(() => {
     async function load() {
-      console.log(searchTerm);
-      if (searchTerm === "") {
-        return;
-      }
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(
-          "https://react-vid-app.vercel.app/api/videos?q=" + searchTerm,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
-          }
-        );
+        const res = await fetch("https://react-vid-app.vercel.app/api/posts", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Token")}`,
+          },
+        });
 
         if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
         const data = await res.json();
-        console.log(data.videos);
-        setVideos(data.videos);
+        console.log(data);
+        setPosts(data);
       } catch (err: any) {
         setError(err?.message ?? "Failed to load videos");
       } finally {
@@ -41,7 +34,7 @@ export default function PostFeed() {
       }
     }
     load();
-  }, [searchTerm]);
+  }, []);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -74,12 +67,12 @@ export default function PostFeed() {
 
       {loading && <p>Loading videos…</p>}
       {error && (
-        <p style={{ color: "#b00020" }}>Failed to load videos: {error}</p>
+        <p style={{ color: "#ff002bff" }}>Failed to load videos: {error}</p>
       )}
 
       <div className="videos-grid">
-        {videos.map((v) => (
-          <VideoCard key={v.id} video={v} />
+        {posts.map((v) => (
+          <PostCard key={v.id} post={v} />
         ))}
       </div>
     </main>
