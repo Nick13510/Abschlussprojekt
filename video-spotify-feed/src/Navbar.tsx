@@ -53,24 +53,30 @@ function Navbar() {
         <ul className="menu menu-horizontal px-1">
           <li>
             <NavLink to="/Login" end>
-              Login Page
+              Profil Page
             </NavLink>
           </li>
           <li>
             <details>
-              <summary>Parent</summary>
+              <summary>Login/Register</summary>
               <ul className="p-2 bg-base-100 w-40 z-1">
                 <li>
-                  <a>Submenu 1</a>
+                  <NavLink to="/Login" end>
+                    Login
+                  </NavLink>
                 </li>
                 <li>
-                  <a>Submenu 2</a>
+                  <NavLink to="/Register" end>
+                    Register
+                  </NavLink>
                 </li>
               </ul>
             </details>
           </li>
           <li>
-            <a>Item 3</a>
+            <NavLink to="/Login" end>
+              Create Post
+            </NavLink>
           </li>
         </ul>
       </div>
