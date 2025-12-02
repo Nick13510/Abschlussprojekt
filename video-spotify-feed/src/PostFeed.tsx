@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import fallbackVideos from "./data/videos";
 import VideoCard from "./components/VideoCard";
 
