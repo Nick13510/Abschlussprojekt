@@ -1,4 +1,4 @@
-export default function PostCard(props) {
+export default function PostCard(props: { post: any }) {
   const post = props.post;
   return (
     <article className="video-card">
