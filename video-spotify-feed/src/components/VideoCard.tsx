@@ -1,4 +1,4 @@
-export default function VideoCard(props) {
+export default function VideoCard(props: { video: any }) {
   const video = props.video;
   return (
     <article className="video-card">

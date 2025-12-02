@@ -5,7 +5,7 @@ export default function DetailPage() {
 
   return (
     <div>
-      <h1>Detailseite für Video {id}</h1>
+      <h1>Detailseite {id}</h1>
     </div>
   );
 }
