@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import VideoCard from "./components/VideoCard";
+import { NavLink } from "react-router";
 
 export default function PostFeed() {
   const [videos, setVideos] = useState<any[]>([]);
@@ -82,3 +83,6 @@ export default function PostFeed() {
     </main>
   );
 }
+<NavLink to="/detail" end>
+  DetailPage
+</NavLink>;
