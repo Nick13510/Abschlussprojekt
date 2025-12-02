@@ -24,7 +24,7 @@ function Navbar() {
           </div>
           <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
             <li>
-              <a>Item 1</a>
+              <NavLink to={"./PostFeed"}>POSTS</NavLink>
             </li>
             <li>
               <a>Parent</a>
@@ -47,7 +47,7 @@ function Navbar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <NavLink>POSTS</a>
+            <a>POSTS</a>
           </li>
           <li>
             <details>
