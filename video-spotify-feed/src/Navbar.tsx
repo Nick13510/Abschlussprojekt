@@ -53,7 +53,7 @@ function Navbar() {
         <ul className="menu menu-horizontal px-1">
           <li>
             <NavLink to="/Login" end>
-              Profil Page
+              Profile Page
             </NavLink>
           </li>
           <li>
