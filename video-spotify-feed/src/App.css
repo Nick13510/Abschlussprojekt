@@ -90,3 +90,19 @@
 @media (max-width: 640px) {
   .feed-title { font-size: 1.25rem; }
 }
+
+/* List-style (YouTube-like) */
+.video-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.video-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px; border-radius: 6px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.video-thumb-wrap { position: relative; flex: 0 0 320px; max-width: 40%; }
+.video-thumb { width: 100%; height: auto; display: block; border-radius: 4px; }
+.duration { position: absolute; right: 6px; bottom: 6px; background: rgba(0,0,0,0.8); color: #fff; padding: 2px 6px; font-size: 0.75rem; border-radius: 4px; }
+.video-meta { flex: 1 1 auto; }
+.video-title { font-size: 1rem; margin: 0 0 6px; }
+.video-channel { margin: 0 0 4px; color: #555; font-size: 0.9rem; }
+.video-published { margin: 0; color: #888; font-size: 0.8rem; }
+
+@media (max-width: 720px) {
+  .video-item { flex-direction: column; }
+  .video-thumb-wrap { max-width: 100%; flex: none; }
+}

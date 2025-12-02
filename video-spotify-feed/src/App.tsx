@@ -1,17 +1,13 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import ReactDOM from "react-dom/client";
-import viteLogo from "/vite.svg";
-import { BrowserRouter, Routes, Route } from "react-router";
+import React from "react";
 import "./App.css";
 import Navbar from "./Navbar";
+import PostFeed from "./PostFeed";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
+    <div>
       <Navbar />
+<<<<<<< HEAD
       const root = document.getElementById("root");
       ReactDOM.createRoot(root).render(
       <BrowserRouter>
@@ -22,6 +18,10 @@ function App() {
       </BrowserRouter>
       , );
     </>
+=======
+      <PostFeed />
+    </div>
+>>>>>>> d0b5f1ff547d45a5a32c5dd5dd4a2353c679a6b2
   );
 }
 
