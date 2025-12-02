@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import fallbackVideos from "./data/videos";
 import VideoCard from "./components/VideoCard";
@@ -111,3 +112,5 @@ export default function PostFeed() {
     </main>
   );
 }
+=======
+>>>>>>> 12bc6246428a09feebe62f4d28fbc7b43bafb9c9

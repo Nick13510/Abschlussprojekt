@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 
 type Video = {
@@ -27,3 +28,5 @@ export default function VideoCard({ video }: { video: Video }) {
     </li>
   );
 }
+=======
+>>>>>>> 12bc6246428a09feebe62f4d28fbc7b43bafb9c9
