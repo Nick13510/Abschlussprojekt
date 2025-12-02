@@ -18,11 +18,9 @@ function mapApiItem(item: any): Video {
   const channel = item.channel ?? item.channelName ?? item.author ?? "Unknown";
   const views = item.views ?? item.viewCount ?? item.viewsText ?? "";
   const duration = item.duration ?? item.length ?? item.time ?? "";
+
   const thumbnail =
-    item.thumbnail ??
-    item.thumbnailUrl ??
-    item.thumbnails?.[0] ??
-    `https://picsum.photos/seed/${encodeURIComponent(id)}/480/270`;
+    item.thumbnail ?? item.thumbnailUrl ?? item.thumbnails?.[0] ?? "";
   const publishedAt =
     item.publishedAt ?? item.published ?? item.publishedAtText ?? "";
   return { id, title, channel, views, duration, thumbnail, publishedAt };
@@ -34,6 +32,8 @@ export default function PostFeed() {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -41,8 +41,15 @@ export default function PostFeed() {
       setLoading(true);
       setError(null);
       try {
-        const url = `https://react-vid-app.vercel.app/api/videos?q=`;
-        const res = await fetch(url);
+        const res = await fetch(
+          "https://react-vid-app.vercel.app/api/videos?q=<search>",
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ q: searchTerm }),
+          }
+        );
+
         if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
         const data = await res.json();
         const items: any[] = Array.isArray(data)
@@ -53,22 +60,51 @@ export default function PostFeed() {
       } catch (err: any) {
         if (mounted) {
           setError(err?.message ?? "Failed to load videos");
-          setVideos(fallbackVideos.slice(0, 5));
+          setVideos([]);
         }
       } finally {
         if (mounted) setLoading(false);
       }
     }
+    try {
+      localStorage.getItem("token")
+        ? load()
+        : setVideos(fallbackVideos.slice(0, 5));
+    } catch {
+      setVideos(fallbackVideos.slice(0, 5));
+    }
 
-    load();
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [searchTerm]);
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSearchTerm(query.trim());
+  }
 
   return (
     <main className="post-feed container">
       <h1 className="feed-title">Home</h1>
+
+      <form
+        onSubmit={onSubmit}
+        className="search-form"
+        style={{ marginBottom: 12 }}
+      >
+        <input
+          aria-label="Search videos"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search videos..."
+          className="search-input"
+          style={{ padding: "8px", width: "calc(100% - 110px)", maxWidth: 420 }}
+        />
+        <button className="btn" style={{ marginLeft: 8 }} type="submit">
+          Search
+        </button>
+      </form>
 
       {loading && <p>Loading videos…</p>}
       {error && (
