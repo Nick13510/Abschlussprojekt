@@ -63,7 +63,7 @@ function Navbar() {
             </details>
           </li>
           <li>
-            <a>Item 3</a>
+            <a>Item 3</a>s
           </li>
         </ul>
       </div>
