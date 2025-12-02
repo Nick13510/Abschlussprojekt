@@ -1,82 +1,45 @@
 import { useEffect, useState } from "react";
-import fallbackVideos from "./data/videos";
+
 import VideoCard from "./components/VideoCard";
 
-type Video = {
-  id: string;
-  title: string;
-  channel: string;
-  views?: string;
-  duration?: string;
-  thumbnail: string;
-  publishedAt?: string;
-};
-
-function mapApiItem(item: any): Video {
-  const id = item.id ?? item.videoId ?? item._id ?? String(Math.random());
-  const title = item.title ?? item.name ?? "Untitled";
-  const channel = item.channel ?? item.channelName ?? item.author ?? "Unknown";
-  const views = item.views ?? item.viewCount ?? item.viewsText ?? "";
-  const duration = item.duration ?? item.length ?? item.time ?? "";
-
-  const thumbnail =
-    item.thumbnail ?? item.thumbnailUrl ?? item.thumbnails?.[0] ?? "";
-  const publishedAt =
-    item.publishedAt ?? item.published ?? item.publishedAtText ?? "";
-  return { id, title, channel, views, duration, thumbnail, publishedAt };
-}
-
 export default function PostFeed() {
-  const [videos, setVideos] = useState<Video[]>(() =>
-    fallbackVideos.slice(0, 5)
-  );
+  const [videos, setVideos] = useState<any[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    let mounted = true;
     async function load() {
+      console.log(searchTerm);
+      if (searchTerm === "") {
+        return;
+      }
       setLoading(true);
       setError(null);
       try {
         const res = await fetch(
-          "https://react-vid-app.vercel.app/api/videos?q=<search>",
+          "https://react-vid-app.vercel.app/api/videos?q=" + searchTerm,
           {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ q: searchTerm }),
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
           }
         );
 
         if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
         const data = await res.json();
-        const items: any[] = Array.isArray(data)
-          ? data
-          : data.videos ?? data.items ?? data.results ?? [];
-        const mapped = items.map(mapApiItem);
-        if (mounted) setVideos(mapped.slice(0, 8));
+        console.log(data.videos);
+        setVideos(data.videos);
       } catch (err: any) {
-        if (mounted) {
-          setError(err?.message ?? "Failed to load videos");
-          setVideos([]);
-        }
+        setError(err?.message ?? "Failed to load videos");
       } finally {
-        if (mounted) setLoading(false);
+        setLoading(false);
       }
     }
-    try {
-      localStorage.getItem("token")
-        ? load()
-        : setVideos(fallbackVideos.slice(0, 5));
-    } catch {
-      setVideos(fallbackVideos.slice(0, 5));
-    }
-
-    return () => {
-      mounted = false;
-    };
+    load();
   }, [searchTerm]);
 
   function onSubmit(e: React.FormEvent) {
