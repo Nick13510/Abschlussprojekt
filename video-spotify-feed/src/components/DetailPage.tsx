@@ -79,20 +79,23 @@ function DetailPage() {
         <h3 className="text-xl font-semibold mb-2">Kommentare</h3>
 
         <textarea
-          className="textarea textarea-bordered w-full"
+          className="textarea textarea-bordered w-full "
           placeholder="Schreibe einen Kommentar..."
           rows={3}
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
         ></textarea>
 
-        <button className="btn btn-primary mt-2" onClick={handleAddComment}>
+        <button
+          className="btn btn-primary mt-2 border-blue-500"
+          onClick={handleAddComment}
+        >
           Absenden
         </button>
 
         <div className="mt-4 space-y-2">
           {comments.length === 0 && (
-            <p className="text-gray-500">Noch keine Kommentare.</p>
+            <p className="text-grey-500">Noch keine Kommentare.</p>
           )}
 
           {comments.map((comment, i) => (
