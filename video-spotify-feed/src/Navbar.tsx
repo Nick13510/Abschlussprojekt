@@ -78,6 +78,11 @@ function Navbar() {
               Create Post
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/SearchPage" end>
+              Search Page
+            </NavLink>
+          </li>
         </ul>
       </div>
       <div className="navbar-end">

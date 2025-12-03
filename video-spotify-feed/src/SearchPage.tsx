@@ -12,26 +12,21 @@ export default function PostFeed() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    if (!searchTerm) return;
     async function load() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(
-          `https://react-vid-app.vercel.app/api/videos? +search=${encodeURIComponent(
-            searchTerm
-          )}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
-          }
-        );
-        <link href="/components/DetailPage" />;
+        const url = `https://react-vid-app.vercel.app/api/videos?q=${encodeURIComponent(
+          searchTerm
+        )}`;
+        const res = await fetch(url);
         if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
         const data = await res.json();
-        console.log(data);
-        setPosts(data);
+        const items = Array.isArray(data)
+          ? data
+          : data.videos ?? data.items ?? data.results ?? [];
+        setPosts(items);
       } catch (err: any) {
         setError(err?.message ?? "Failed to load videos");
       } finally {
@@ -39,7 +34,7 @@ export default function PostFeed() {
       }
     }
     load();
-  }, []);
+  }, [searchTerm]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
