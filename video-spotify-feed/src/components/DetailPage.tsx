@@ -120,3 +120,14 @@ const response = await fetch(
 );
 
 export default DetailPage;
+
+const token = localStorage.getItem("Token");
+
+const r = await fetch(
+  `https://react-vid-app.vercel.app/api/posts/${id}/comments`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
