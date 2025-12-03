@@ -8,7 +8,6 @@ export default function PostCard(props: { post: any }) {
       <div className="meta">
         <h3 className="title">{post.content}</h3>
       </div>
-      AC
     </article>
   );
 }

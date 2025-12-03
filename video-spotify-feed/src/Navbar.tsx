@@ -73,11 +73,7 @@ function Navbar() {
               </ul>
             </details>
           </li>
-          <li>
-            <NavLink to="/Login" end>
-              Create Post
-            </NavLink>
-          </li>
+          <li></li>
         </ul>
       </div>
       <div className="navbar-end">
