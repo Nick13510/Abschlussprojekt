@@ -20,14 +20,14 @@ function SearchPage() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("Token")}`,
       },
       body: JSON.stringify(postPayload),
     });
 
     const resultData = await response.json();
     console.log("Post created:", resultData);
-    navigate("/feed");
+    navigate("/");
   };
 
   const searchYoutube = async () => {
