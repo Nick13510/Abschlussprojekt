@@ -108,5 +108,15 @@ function DetailPage() {
     </div>
   );
 }
+const response = await fetch(
+  `https://react-vid-app.vercel.app/api/posts/{id}/comments`,
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("Token")}`,
+    },
+    body: JSON.stringify({ content: "commentText" }),
+  }
+);
 
 export default DetailPage;
