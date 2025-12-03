@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router";
 import RegisterPage from "./Register";
 import DetailPage from "./components/DetailPage";
 import SearchPage from "./SearchPage";
+import UserProfile from "./UserProfile";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="detail/:id" element={<DetailPage />} />
         <Route path="/SearchPage" element={<SearchPage />} />
+        <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </div>
   );

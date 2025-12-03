@@ -52,8 +52,8 @@ function Navbar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <NavLink to="/Login" end>
-              Profil Page
+            <NavLink to="/profile" end>
+              Profile Page
             </NavLink>
           </li>
           <li>
@@ -74,7 +74,6 @@ function Navbar() {
             </details>
           </li>
 
-          <li></li>
           <li>
             <NavLink to="/SearchPage" end>
               Search Page

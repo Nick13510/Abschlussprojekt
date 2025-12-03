@@ -57,9 +57,7 @@ function DetailPage() {
                 className="rounded"
                 title={`media-${index}`}
               ></iframe>
-              <div className="card-actions justify-end mt-2">
-                <button className="btn btn-sm btn-primary">Öffnen</button>
-              </div>
+              <div className="card-actions justify-end mt-2"></div>
             </div>
           </div>
         ))}

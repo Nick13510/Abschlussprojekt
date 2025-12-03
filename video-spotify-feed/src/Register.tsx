@@ -37,7 +37,7 @@ export default function Registrieren() {
     e.preventDefault();
     if (!validate()) return;
     console.log("Submitting form:", form);
-    // Send to server
+
     fetch("https://react-vid-app.vercel.app/api/auth/register", {
       method: "POST",
       headers: {
