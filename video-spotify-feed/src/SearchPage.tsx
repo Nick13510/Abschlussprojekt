@@ -8,7 +8,7 @@ function SearchPage() {
 
   const [youtubeResults, setYoutubeResults] = useState<any[]>([]);
   const [mediaLinks, setMediaLinks] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState(""); // Zustand für Input
+  const [searchQuery, setSearchQuery] = useState("");
 
   const onCreatePost = async (data: any) => {
     const postPayload = {
@@ -31,7 +31,7 @@ function SearchPage() {
   };
 
   const searchYoutube = async () => {
-    if (!searchQuery) return; // Nichts tun, wenn leer
+    if (!searchQuery) return;
     const response = await fetch(
       "https://react-vid-app.vercel.app/api/videos?q=" + searchQuery,
       {
