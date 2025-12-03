@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { UserProfileFetchOwnProfile, UserProfileUpdate } from "./UserFetch";
+import { UserProfileFetchOwnProfile, UserFetchAll } from "./UserFetch";
 
 const UserProfile: React.FC = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any | null>(null);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
 
@@ -19,25 +21,17 @@ const UserProfile: React.FC = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleUpdate = async () => {
-    if (!user) return;
-    try {
-      const updated = await UserProfileUpdate({ username, email });
-      setUser(updated);
-      alert("Profil erfolgreich aktualisiert!");
-    } catch (err: any) {
-      alert("Fehler beim Aktualisieren: " + err.message);
-    }
-  };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  useEffect(() => {
+    UserFetchAll()
+      .then((data) => setAllUsers(data))
+      .catch((err) => console.error("Fetch all users error:", err));
+  }, []);
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-base-100 rounded-lg shadow-lg">
+    <div className="max-w-2xl mx-auto p-6 bg-base-100 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-4">Mein Profil</h1>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mb-6">
         <table className="table w-full">
           <thead>
             <tr>
@@ -49,9 +43,31 @@ const UserProfile: React.FC = () => {
           <tbody>
             <tr className="bg-base-200">
               <th>1</th>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
+              <td>{user?.username}</td>
+              <td>{user?.email}</td>
             </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h2 className="text-xl font-semibold mb-2">Alle User</h2>
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Username</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allUsers.map((u, idx) => (
+              <tr key={u.id} className="bg-base-200">
+                <th>{idx + 1}</th>
+                <td>{u.username}</td>
+                <td>{u.email}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

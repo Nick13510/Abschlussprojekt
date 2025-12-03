@@ -17,31 +17,23 @@ export const UserProfileFetchOwnProfile = async (): Promise<User> => {
     }
   );
 
-  if (!response.ok) throw new Error("Failed to fetch User profile");
+  if (!response.ok) {
+    throw new Error("Failed to fetch user profile");
+  }
 
   const data = await response.json();
   console.log("Fetched user profile:", data);
   return data;
 };
 
-export const UserProfileUpdate = async (updatedData: {
-  username?: string;
-  email?: string;
-}): Promise<User> => {
+export const UserFetchAll = async (): Promise<User[]> => {
   const token = localStorage.getItem("Token");
-  const response = await fetch(
-    "https://react-vid-app.vercel.app/api/users/profile",
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(updatedData),
-    }
-  );
 
-  if (!response.ok) throw new Error("Failed to update profile");
+  const response = await fetch("https://react-vid-app.vercel.app/api/users", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) throw new Error("Failed to fetch users");
 
   return response.json();
 };
