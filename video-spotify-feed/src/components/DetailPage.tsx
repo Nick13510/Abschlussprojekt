@@ -7,30 +7,75 @@ function DetailPage() {
   const [loading, setLoading] = useState(true);
 
   const [commentText, setCommentText] = useState("");
-  const [comments, setComments] = useState<string[]>([]);
+  const [comments, setComments] = useState<any[]>([]);
+  const [commentLoading, setCommentLoading] = useState(false);
+  const [commentError, setCommentError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("https://react-vid-app.vercel.app/api/posts/" + id, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("Token")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setPost(data);
+    const fetchPostAndComments = async () => {
+      setLoading(true);
+      try {
+        const postResponse = await fetch(
+          `https://react-vid-app.vercel.app/api/posts/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+          }
+        );
+        const postData = await postResponse.json();
+        setPost(postData);
+
+        const commentsResponse = await fetch(
+          `https://react-vid-app.vercel.app/api/posts/${id}/comments`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+          }
+        );
+        const commentsData = await commentsResponse.json();
+        setComments(commentsData);
+      } catch (error) {
+        console.error("Fehler beim Laden:", error);
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.log("Fehler beim Laden:", error);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchPostAndComments();
   }, [id]);
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (!commentText.trim()) return;
+    setCommentLoading(true);
+    setCommentError(null);
 
-    setComments((prev) => [...prev, commentText]);
-    setCommentText("");
+    try {
+      const response = await fetch(
+        `https://react-vid-app.vercel.app/api/posts/${id}/comments`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("Token")}`,
+          },
+          body: JSON.stringify({ content: commentText }),
+        }
+      );
+
+      if (!response.ok)
+        throw new Error("Kommentar konnte nicht gespeichert werden");
+
+      const savedComment = await response.json();
+
+      setComments((prev) => [...prev, savedComment]);
+      setCommentText("");
+    } catch (err: any) {
+      setCommentError(err.message || "Fehler beim Speichern des Kommentars");
+    } finally {
+      setCommentLoading(false);
+    }
   };
 
   if (loading) {
@@ -89,9 +134,12 @@ function DetailPage() {
         <button
           className="btn btn-primary mt-2 border-blue-500"
           onClick={handleAddComment}
+          disabled={commentLoading}
         >
-          Absenden
+          {commentLoading ? "Speichert..." : "Absenden"}
         </button>
+
+        {commentError && <p className="text-red-500 mt-2">{commentError}</p>}
 
         <div className="mt-4 space-y-2">
           {comments.length === 0 && (
@@ -100,7 +148,7 @@ function DetailPage() {
 
           {comments.map((comment, i) => (
             <div key={i} className="p-2 bg-base-300 rounded">
-              {comment}
+              {comment.content}
             </div>
           ))}
         </div>
@@ -108,26 +156,5 @@ function DetailPage() {
     </div>
   );
 }
-const response = await fetch(
-  `https://react-vid-app.vercel.app/api/posts/{id}/comments`,
-  {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("Token")}`,
-    },
-    body: JSON.stringify({ content: "commentText" }),
-  }
-);
 
 export default DetailPage;
-
-const token = localStorage.getItem("Token");
-
-const r = await fetch(
-  `https://react-vid-app.vercel.app/api/posts/${id}/comments`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-);
