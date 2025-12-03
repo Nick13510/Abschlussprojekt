@@ -5,6 +5,7 @@ import PostFeed from "./PostFeed";
 import { Routes, Route } from "react-router";
 import RegisterPage from "./Register";
 import DetailPage from "./components/DetailPage";
+import SearchPage from "./SearchPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/Register" element={<RegisterPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="detail/:id" element={<DetailPage />} />
+        <Route path="/SearchPage" element={<SearchPage />} />
       </Routes>
     </div>
   );

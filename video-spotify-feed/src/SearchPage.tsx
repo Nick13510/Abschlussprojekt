@@ -1,83 +1,133 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
-import PostCard from "./components/PostCard";
-import { NavLink } from "react-router";
+function PostCreatePage() {
+  const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
-export default function PostFeed() {
-  const [posts, setPosts] = useState<any[]>([]);
+  const [youtubeResults, setYoutubeResults] = useState<any[]>([]);
+  const [mediaLinks, setMediaLinks] = useState<any[]>([]);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const onCreatePost = async (data: any) => {
+    console.log("Post create data from form:", data);
+    console.log("With medialinks:", mediaLinks);
+    const postPayload = {
+      content: data.content,
+      mediaLinks: mediaLinks,
+    };
 
-  useEffect(() => {
-    if (!searchTerm) return;
-    async function load() {
-      setLoading(true);
-      setError(null);
-      try {
-        const url = `https://react-vid-app.vercel.app/api/videos?q=${encodeURIComponent(
-          searchTerm
-        )}`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-        const data = await res.json();
-        const items = Array.isArray(data)
-          ? data
-          : data.videos ?? data.items ?? data.results ?? [];
-        setPosts(items);
-      } catch (err: any) {
-        setError(err?.message ?? "Failed to load videos");
-      } finally {
-        setLoading(false);
+    const response = await fetch("https://react-vid-app.vercel.app/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(postPayload),
+    });
+
+    const resultData = await response.json();
+    console.log("Post created:", resultData);
+    navigate("/feed");
+  };
+
+  const searchYoutube = async (searchFieldValue: string) => {
+    console.log(searchFieldValue);
+    const response = await fetch(
+      "https://react-vid-app.vercel.app/api/videos?q=" + searchFieldValue,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    }
-    load();
-  }, [searchTerm]);
+    );
+    const data = await response.json();
+    setYoutubeResults(data.videos);
+    console.log("Youtube search results:", data);
+  };
 
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setSearchTerm(query.trim());
+  function addMediaToPost(video: any) {
+    console.log(video);
+    const mediaLink = {
+      source: "youtube",
+      id: video.videoId,
+    };
+    setMediaLinks([...mediaLinks, mediaLink]);
   }
 
   return (
-    <main className="post-feed container">
-      <h1 className="feed-title">Home</h1>
-      <NavLink to="/Register" end></NavLink>
+    <div className="mt-20">
       <form
-        onSubmit={onSubmit}
-        className="search-form"
-        style={{ marginBottom: 12 }}
+        onSubmit={handleSubmit(onCreatePost)}
+        className="flex gap-2 flex-col bg-amber-100 p-4 rounded-md"
       >
-        <input
-          aria-label="Search videos"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search videos..."
-          className="search-input"
-          style={{ padding: "8px", width: "calc(100% - 110px)", maxWidth: 420 }}
-        />
-        <button className="btn" style={{ marginLeft: 8 }} type="submit">
-          Search
-        </button>
-      </form>
+        <div>
+          <label>Content</label>
+          <input {...register("content")} className="input" />
+        </div>
+        <div>
+          <h3 className="font-bold text-lg">Medialinks added to Post:</h3>
+          {mediaLinks.map((medialink, index) => (
+            <div key={index} className="border-b border-gray-300 p-2">
+              <p>
+                Source: {medialink.source}, ID: {medialink.id}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div>
+          <input type="submit" className="btn" value="Posten" />
+        </div>
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
 
-      {loading && <p>Loading videos…</p>}
-      {error && (
-        <p style={{ color: "#ff002bff" }}>Failed to load videos: {error}</p>
-      )}
-
-      <div className="videos-grid">
-        {posts.map((v) => (
-          <div key={v.id}>
-            <PostCard post={v} />
-            <a href={`/detail/${v.id}`}>
-              <button>Details</button>
-            </a>
+        {/* AB HIER IST DIE YOUTUBE SUCHE */}
+        <div>
+          <h3 className="font-bold text-lg">Suchen nach Youtube!</h3>
+          <div>
+            <input
+              type="text"
+              placeholder="Type here"
+              id="youtube-search"
+              className="input input-bordered w-full max-w-xs"
+            />
+            <button
+              className="btn"
+              onClick={() =>
+                searchYoutube(document.getElementById("youtube-search")?.value)
+              }
+            >
+              Suche
+            </button>
           </div>
-        ))}
-      </div>
-    </main>
+          {youtubeResults?.map((video) => (
+            <div key={video.id} className="border-b border-gray-300 p-2">
+              <img src={video.thumbnailUrl} alt={video.title} />
+              <p>{video.title}</p>
+              <a
+                href={`https://www.youtube.com/watch?v=${video.id}`}
+                target="_blank"
+                className="btn"
+                rel="noreferrer"
+              >
+                Link zum Video
+              </a>
+              <button
+                className="btn btn-secondary ml-2"
+                onClick={() => addMediaToPost(video)}
+              >
+                Add to Post
+              </button>
+            </div>
+          ))}
+        </div>
+      </form>
+    </div>
   );
 }
+
+export default PostCreatePage;
