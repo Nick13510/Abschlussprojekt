@@ -16,12 +16,17 @@ export default function PostFeed() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch("https://react-vid-app.vercel.app/api/posts", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Token")}`,
-          },
-        });
+        const res = await fetch(
+          `https://react-vid-app.vercel.app/api/videos? +search=${encodeURIComponent(
+            searchTerm
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+          }
+        );
         <link href="/components/DetailPage" />;
         if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
         const data = await res.json();
