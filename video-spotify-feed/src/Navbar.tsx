@@ -73,6 +73,7 @@ function Navbar() {
               </ul>
             </details>
           </li>
+<<<<<<< HEAD
           <li>
             <NavLink to="/Login" end>
               Create Post
@@ -83,6 +84,9 @@ function Navbar() {
               Search Page
             </NavLink>
           </li>
+=======
+          <li></li>
+>>>>>>> 80d7aba78a72ba63e8aad9e89e1aa9d473c1d55d
         </ul>
       </div>
       <div className="navbar-end">
