@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<PostFeed />} />
         <Route path="/Register" element={<RegisterPage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/detail/:id" element={<DetailPage />} />
+        <Route path="detail/:id" element={<DetailPage />} />
       </Routes>
     </div>
   );
