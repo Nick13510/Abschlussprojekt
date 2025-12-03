@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import PostCard from "./components/PostCard";
-import { NavLink } from "react-router";
 
 export default function PostFeed() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -47,7 +46,7 @@ export default function PostFeed() {
   return (
     <main className="post-feed container">
       <h1 className="feed-title">Home</h1>
-      <NavLink to="/Register" end></NavLink>
+
       <form
         onSubmit={onSubmit}
         className="search-form"
@@ -59,7 +58,7 @@ export default function PostFeed() {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search videos..."
           className="search-input"
-          style={{ padding: "8px", width: "calc(100% - 110px)", maxWidth: 420 }}
+          style={{ padding: "8px", width: 500, maxWidth: 500 }}
         />
         <button className="btn" style={{ marginLeft: 8 }} type="submit">
           Search
